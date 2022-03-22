@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Head from './Header';
 import './main.css';
 
 import {
@@ -6,6 +7,7 @@ import {
     loadAccount,
     loadTutorial
 } from "../helpers/web3Functions";
+import { ModalBody } from 'react-bootstrap';
 
 const LandingPage = () => {
     const [account, setAccount] = useState("")
@@ -39,25 +41,41 @@ const LandingPage = () => {
     },[])
 
     return (
-      <div className="center">
-        <div className="col">
-          <div>
-            <div> account: {account}</div>
-          </div>
-          <div className="col">
-            <div className="row">
-              <div>frase {frase}</div>
-              <button className='btn' type='button' onClick={callGetFrase} >Get</button>
+      <div>
+        <Head />
+        <body className='body'>
+          <div className="center">
+            <div className="col">
+              <div className="row"> 
+                <div>
+                  <p className='title'>account:</p>
+                  <div>{account &&
+                    `${account.slice(0, 6)}...${account.slice(
+                      account.length - 4,
+                      account.length
+                    )}`}
+                </div>
+                </div>
+              </div>
+                <div className="row">
+                  <div>
+                    <p className='title'>Frase:</p> 
+                    <div>{frase}</div>
+                  </div>
+                  <button className='btnGet' type='button' onClick={callGetFrase} >Get</button>
+                </div>
+                <div className="row">
+                  <div>
+                    <p className='title'> Trocar frase:</p>
+                    <input placeholder="Nova frase" className='inp' onChange={(e) => setNewFrase(e.target.value)}/>
+                  </div>
+                    <button className='btn' type="button" onClick={() => callSetFrase(newFrase)}>Submit</button>
+                </div>
             </div>
-            <div className="row">
-                <input placeholder="nova frase" className='inp' onChange={(e) => setNewFrase(e.target.value)}/>
-                <button className='btn' type="button" onClick={() => callSetFrase(newFrase)}>Submit</button>
-            </div>
           </div>
-        </div>
+        </body>
       </div>
     )
-    
 }
 
 export default LandingPage;
