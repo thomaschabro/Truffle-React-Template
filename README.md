@@ -1,4 +1,4 @@
-# Web3-React-Template
+# Truffle-React-Template
 
 ### Repositório para inicializar um projeto com truffle e react
 
