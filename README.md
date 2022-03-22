@@ -23,3 +23,5 @@ O projeto conta um funções auxiliares na pasta `src/helpers`, para facilitar a
 * [Node.js](https://nodejs.org/en/)
 * [Ganache](https://trufflesuite.com/ganache/)
 * [Truffle](https://trufflesuite.com/truffle/)
+
+[Repo Setup](https://github.com/ChainSafe/web3.js#troubleshooting-and-known-issues)
