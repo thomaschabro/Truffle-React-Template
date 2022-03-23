@@ -2,11 +2,18 @@
 
 ### Repositório para inicializar um projeto com truffle e react
 
-Clone o repositorio e rode 
+Baixe o repositorio e rode 
 ````
 npm install
 ````
 Para instalar todos os pacotes.
+
+Rode
+````
+truffle migrate
+````
+Para dar deploy dos contratos
+
 Caso ja tenha instalado todas as dependências (veja lista no final), rode:
 ````
 npm start
