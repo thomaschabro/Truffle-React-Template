@@ -31,7 +31,7 @@ contract TokenGovernance {
         tokenCounter += _token.balanceOf(msg.sender);
     }
 
-    function endVote() public returns(bool) {
+    function endVote() public view returns(bool) {
         require(votersCounter > 2);
         require(tokenCounter > 5);
         return true;
