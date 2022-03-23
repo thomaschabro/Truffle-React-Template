@@ -7,7 +7,6 @@ import {
     loadAccount,
     loadTutorial
 } from "../helpers/web3Functions";
-import { ModalBody } from 'react-bootstrap';
 
 const LandingPage = () => {
     const [account, setAccount] = useState("")
@@ -46,7 +45,7 @@ const LandingPage = () => {
         <body className='body'>
           <div className="center">
             <div className="col">
-              <div className="row"> 
+              <div className="row">
                 <div>
                   <p className='title'>account:</p>
                   <div>{account &&
