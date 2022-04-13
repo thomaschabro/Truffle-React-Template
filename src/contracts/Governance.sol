@@ -1,39 +1,27 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract Coin is ERC20 {
-    constructor(
-        string memory name,
-        string memory symbol,
-        address initialAccount,
-        uint256 initialBalance
-    ) payable ERC20(name, symbol) {
-        _mint(initialAccount, initialBalance);
-    }
-}
+import "./InsperCoin.sol";
 
-contract TokenGovernance {
+contract TestGov is insperCoin(30000000, "inspercoin", "ICO") {
+    /// contadores necessários
+    uint private count_votacao = 0;
+    uint private users = 0;
+    uint private tokens = 0;
 
-    ERC20 _token;
-    uint256 public votersCounter;
-    uint256 public tokenCounter;
-    mapping(address => bool) whoVoted;
+    // Lista de votantes
+    address[] public voters;
 
-    constructor(ERC20 tokenCoin) {
-        _token = tokenCoin;
-    }
+    function voting(address voter, uint256 amount) public view returns(bool) {
+        require(1 <= amount);
+        require(amount <= balances[voter]);
 
-    function vote() public {
-        require(!whoVoted[msg.sender]);
-        whoVoted[msg.sender] = true;
-        votersCounter++;
-        tokenCounter += _token.balanceOf(msg.sender);
-    }
+        for (uint i=0; i < voters.length; i++) {
+            if (voter == voters[i]) {
+                return false;
+            }
+        }
 
-    function endVote() public view returns(bool) {
-        require(votersCounter > 2);
-        require(tokenCounter > 5);
-        return true;
+    return true;
     }
 }
