@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract insperCoin {
+contract inspercoin {
 
     // Definindo eventos
     event Transfer(address indexed from_Id, address indexed to_Id, uint amount);
