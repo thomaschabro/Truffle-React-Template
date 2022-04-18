@@ -3,35 +3,30 @@ pragma solidity ^0.8.0;
 
 import "./inspercoin.sol";
 
-contract Governance {
-    
-    ERC20 public _token;
-
+contract Governnce is inspercoin(30000000, "inspercoin", "ICO") {
     /// contadores necessários
     uint256 public votacoes= 0;
     uint256 public users = 0;
     uint256 public tokens = 0;
     bool public _voting = true;
 
-    constructor(ERC20 tokencoin) {
-        _token = tokencoin;
-    }
-
     // Lista de votantes
     mapping (address => bool) voters;
 
-    function vote() public {
-        address voter = msg.sender;
-        require(0 <= _token.balanceOf(voter));
+    function vote(uint256 amount) public {
+        require(1 <= amount);
+        require(amount <= balances[voter]);
         require(!voters[voter]);
         require(_voting);
 
         // Mundanças com o votante
+        address voter = msg.sender;
         voters[voter] = true;
+        balances[voter] = balances[voter] - amount;
 
         // Mundanças das variáveis da votação
         users++;
-        tokens = tokens + _token.balanceOf(voter);
+        tokens = tokens + amount;
 
         // Verifica se votação foi finalizada
         if (users > 3 && tokens > 10) {
@@ -44,9 +39,5 @@ contract Governance {
 
     function hasVoted(address voter) public view returns(bool) {
         return voters[voter];
-    }
-
-    function voteStatus() public returns(bool) {
-        return _voting;
     }
 }

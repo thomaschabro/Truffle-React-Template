@@ -12,7 +12,7 @@ import {
 
 const LandingPage = () => {
   const [account, setAccount] = useState("");
-  const [amount, setAmount] = useState("");
+
   const [address, setAddress] = useState("");
 
   const [balance, setBalance] = useState(0);
@@ -34,23 +34,8 @@ const LandingPage = () => {
     setWeb3(web3);
     const networkId = await web3.eth.net.getId();
     const acc = await loadAccount(web3);
-    const factoryContract = await loadFactory(web3, networkId);
-    if (!factoryContract) {
-      window.alert(
-        "Smart contract not detected on the current network. Please select another network with Metamask."
-      );
-      return;
-    }
 
-    const governContractAddress = await factoryContract.methods
-      .getGovernance()
-      .call();
-
-    const governContract = await loadGovernance(
-      web3,
-      web3.eth.net.getId(),
-      governContractAddress
-    );
+    const governContract = await loadGovernance(web3, web3.eth.net.getId());
 
     if (!governContract) {
       window.alert(
@@ -61,6 +46,10 @@ const LandingPage = () => {
 
     const voted = await governContract.methods.hasVoted(acc).call();
     setVoted(voted);
+
+    const balance = await governContract.methods._token
+      .balanceOf(account)
+      .call();
   };
 
   useEffect(() => {
@@ -97,23 +86,6 @@ const LandingPage = () => {
                 Set
               </button>
             </div>
-            <div className="row">
-              <div>
-                <p className="title">Amount: </p>
-                <input
-                  placeholder="inser amount "
-                  className="inp"
-                  type={Number}
-                />
-              </div>
-              <button
-                className="btnSet"
-                type="button"
-                onClick={e => setAmount(e.target.value)}
-              >
-                Set
-              </button>
-            </div>
             <br></br>
             <div className="row">
               <button className="btnVote" type="button">
@@ -121,7 +93,9 @@ const LandingPage = () => {
               </button>
             </div>
           </div>
-
+        </div>
+        <br></br>
+        <div className="center">
           <div className="col">
             <p>Has Voted?</p>
             <div className="row">
@@ -147,7 +121,7 @@ const LandingPage = () => {
               >
                 Set
               </button>
-              <p className="title">votou: {() => hasVoted()}</p>
+              <p className="title">votou: {() => hasVoted(account)}</p>
             </div>
           </div>
         </div>
