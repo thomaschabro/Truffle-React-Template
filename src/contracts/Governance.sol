@@ -1,37 +1,47 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./InsperCoin.sol";
+import "./inspercoin.sol";
 
-contract TestGov is inspercoin(30000000, "inspercoin", "ICO") {
-    // contadores necessários
-    uint private count_votacao = 0;
-    uint private users = 0;
-    uint private tokens = 0;
+contract Governnce is inspercoin(30000000, "inspercoin", "ICO") {
+    /// contadores necessários
+    uint256 public votacoes= 0;
+    uint256 public users = 0;
+    uint256 public tokens = 0;
+    bool public _voting = true;
 
     // Lista de votantes
-    address[] public voters;
-    address[] public clear;
+    mapping (address => bool) voters;
 
-    function voting(address voter, uint256 amount) public returns(bool) {
-        require(1 <= balances[voter]);
-        require(balances[voter] <= amount);
+    function vote(uint256 amount) public {
+        require(1 <= amount);
+        require(amount <= balances[voter]);
+        require(!voters[voter]);
+        require(_voting);
 
-        for (uint i=0; i < voters.length; i++) {
-            if (voter == voters[i]) {
-                return false;
-            }
-        }
+        // Mundanças com o votante
+        address voter = msg.sender;
+        voters[voter] = true;
         balances[voter] = balances[voter] - amount;
-        users = users + 1;
+
+        // Mundanças das variáveis da votação
+        users++;
         tokens = tokens + amount;
 
-        if (10 <= tokens && users <= 3) {
+        // Verifica se votação foi finalizada
+        if (users > 3 && tokens > 10) {
             users = 0;
-            voters = clear;
-            count_votacao = count_votacao + 1;
+            tokens = 0;
+            _voting = false;
         }
 
-    return true;
+    }
+
+    function hasVoted(address voter) public view returns(bool) {
+        return voters[voter];
+    }
+
+    function voteStatus() public returns(bool) {
+        return _voting;
     }
 }

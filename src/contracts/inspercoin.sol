@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract inspercoin {
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+
+contract inspercoin is ERC20 {
 
     // Definindo eventos
     event Transfer(address indexed from_Id, address indexed to_Id, uint amount);
@@ -23,8 +25,6 @@ contract inspercoin {
         _name = name_;
         _symbol = symbol_;
     }
-
-
     
     // Função que retorna nome da moeda
     function name() public view returns(string memory) {
